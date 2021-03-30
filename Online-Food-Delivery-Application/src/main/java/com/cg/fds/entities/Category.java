@@ -4,36 +4,43 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Category {
 
-	@Id
-	@GeneratedValue
-	private String catId;
-	private String categoryName;
+    @Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int catId;
+    @NotEmpty(message = "Category name should not be empty...")
+    private String categoryName;
 	
-	@OneToMany(mappedBy = "itemId")
-	List<Item> list;
-	
+		
 	public Category() {
 		super();
 	}
 
-	public Category(String catId, String categoryName) {
+	public Category(int catId, String categoryName) {
 		super();
 		this.catId = catId;
 		this.categoryName = categoryName;
 	}
+	
+	
+	public Category(String categoryName) {
+		super();
+		this.categoryName = categoryName;
+	}
 
-	public String getCatId() {
+	public int getCatId() {
 		return catId;
 	}
 
 
-	public void setCatId(String catId) {
+	public void setCatId(int catId) {
 		this.catId = catId;
 	}
 

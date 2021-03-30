@@ -1,121 +1,123 @@
 package com.cg.fds.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+import org.springframework.lang.NonNull;
 
 @Entity
 public class Item {
 
 	@Id
-	@GeneratedValue
-	private String itemId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int itemId;
+	@NotEmpty(message = "Item name should not be empty...")
 	private String itemName;
+	@NonNull
+	@Digits(fraction = 0, integer = 2)
+	// @Value("1")
 	private int quantity;
+	@Digits(fraction = 0, integer = 3)
 	private double cost;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="cat_Id")
+
+	@ManyToOne
+	@JoinColumn(name = "cat_id", referencedColumnName = "catId")
 	private Category category;
+
+	/*@ManyToMany
+	@JoinTable(name="itemlist_restaurant",joinColumns = {@JoinColumn(name="item_id")},inverseJoinColumns = {@JoinColumn(name="restaurant_id")})
+	//@ManyToMany(cascade = CascadeType.ALL) @JoinTable(name = "itemlist_restaurant", joinColumns = { @JoinColumn(name = "STUDENT_ID") }, inverseJoinColumns = { @JoinColumn(name = "SUBJECT_ID") }) 
+	private List<Restaurant> restaurants=new ArrayList<>();*/
 	
-	
-	@ManyToMany(mappedBy = "itemList")
-	private List<Restaurant> restaurants;
-	
+	@ManyToOne
+	@JoinColumn(name = "restaurant_id")
+	private Restaurant restaurant;
 
 	public Item() {
 		super();
 	}
 
+	public Item(String itemName, int quantity, double cost, Category category, Restaurant restaurant) {
+		super();
+		this.itemName = itemName;
+		this.quantity = quantity;
+		this.cost = cost;
+		this.category = category;
+		this.restaurant = restaurant;
+	}
 
-	public Item(String itemId, String itemName, Category category, int quantity, double cost,
-			List<Restaurant> restaurants) {
+	public Item(int itemId, String itemName, int quantity, double cost, Category category, Restaurant restaurant) {
 		super();
 		this.itemId = itemId;
 		this.itemName = itemName;
-		this.category = category;
 		this.quantity = quantity;
 		this.cost = cost;
-		this.restaurants = restaurants;
+		this.category = category;
+		this.restaurant = restaurant;
 	}
 
-
-	public String getItemId() {
+	public int getItemId() {
 		return itemId;
 	}
 
-
-	public void setItemId(String itemId) {
+	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
-
 
 	public String getItemName() {
 		return itemName;
 	}
 
-
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-
-
-	public Category getCategory() {
-		return category;
-	}
-
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
 
 	public int getQuantity() {
 		return quantity;
 	}
 
-
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
 
 	public double getCost() {
 		return cost;
 	}
 
-
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
 
-
-	public List<Restaurant> getRestaurants() {
-		return restaurants;
+	public Category getCategory() {
+		return category;
 	}
 
-
-	public void setRestaurants(List<Restaurant> restaurants) {
-		this.restaurants = restaurants;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
 
 	@Override
 	public String toString() {
-		return "Item [itemId=" + itemId + ", itemName=" + itemName + ", category=" + category + ", quantity=" + quantity
-				+ ", cost=" + cost + ", restaurants=" + restaurants + "]";
+		return "Item [itemId=" + itemId + ", itemName=" + itemName + ", quantity=" + quantity + ", cost=" + cost
+				+ ", category=" + category + ", restaurant=" + restaurant + "]";
 	}
-	
-	
-	
-	
-	
+
 }

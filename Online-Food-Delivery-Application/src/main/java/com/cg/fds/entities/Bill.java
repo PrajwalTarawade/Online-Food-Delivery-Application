@@ -4,27 +4,45 @@ import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Bill {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int billId;
 	private int totalItem;
+	@Digits(fraction = 0, integer = 3)
 	private double totalCost;
 	private LocalDateTime billDate;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="order_Id")
 	private OrderDetails order;
+		
+	
+	public Bill() {
+		super();
+	}
 	
 	
-	
+	public Bill( int totalItem, double totalCost, LocalDateTime billDate, OrderDetails order) {
+		super();
+		this.totalItem = totalItem;
+		this.totalCost = totalCost;
+		this.billDate = billDate;
+		this.order = order;
+	}
+
+
 	public Bill(int billId, OrderDetails order, int totalItem, double totalCost, LocalDateTime billDate) {
 		super();
 		this.billId = billId;

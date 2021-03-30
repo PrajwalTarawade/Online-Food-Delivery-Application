@@ -1,12 +1,17 @@
  package com.cg.fds.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -14,33 +19,34 @@ import javax.persistence.OneToOne;
 public class FoodCart {
 
 	@Id
-	@GeneratedValue
-	private String cartId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int cartId;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="cust_Id")
+	@OneToOne
+	@JoinColumn(name="custId", referencedColumnName = "customerId")
 	private Customer customer;
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "itemId", orphanRemoval = true)
-	private List<Item> itemList;
+	@ManyToMany
+	@JoinTable(name="cart_item_list", joinColumns = { @JoinColumn(name="cart_id")},inverseJoinColumns = {@JoinColumn(name="item_id")})
+    private List<Item> itemList=new ArrayList<Item>();
 	
 	
 	public FoodCart() {
 		super();
 	}
 
-	public FoodCart(String cartId, Customer customer, List<Item> itemList) {
+	public FoodCart(int cartId, Customer customer, List<Item> itemList) {
 		super();
 		this.cartId = cartId;
 		this.customer = customer;
 		this.itemList = itemList;
 	}
 
-	public String getCartId() {
+	public int getCartId() {
 		return cartId;
 	}
 
-	public void setCartId(String cartId) {
+	public void setCartId(int cartId) {
 		this.cartId = cartId;
 	}
 

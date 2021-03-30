@@ -8,8 +8,8 @@ import javax.persistence.Id;
 public class Address {
 
 	@Id
-	//@GeneratedValue
-	private String addressId;
+	@GeneratedValue
+	private int addressId;
 	private String buildingName;
 	private String area;
 	private String streetNo;
@@ -21,10 +21,9 @@ public class Address {
 	
 	public Address() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Address(String addressId, String buildingName, String area, String streetNo, String city, String state,
+	public Address(int addressId, String buildingName, String area, String streetNo, String city, String state,
 			String country, String pincode) {
 		super();
 		this.addressId = addressId;
@@ -37,11 +36,11 @@ public class Address {
 		this.pincode = pincode;
 	}
 
-	public String getAddressId() {
+	public int getAddressId() {
 		return addressId;
 	}
 
-	public void setAddressId(String addressId) {
+	public void setAddressId(int addressId) {
 		this.addressId = addressId;
 	}
 

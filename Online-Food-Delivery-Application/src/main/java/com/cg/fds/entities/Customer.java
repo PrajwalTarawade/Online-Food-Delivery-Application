@@ -7,6 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -15,25 +20,33 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int customerId;
+	@NotEmpty(message = "First name should not be empty")
+	@Size(min = 2, max = 10)
 	private String firstName;
+	@NotEmpty(message = "Last name should not be empty")
+	@Size(min = 2, max = 10)
 	private String lastName;
 	private String gender;
-	private String age;
+	@Digits(fraction = 0, integer = 2)
+	@Min(value=1)
+	private int age;
+	@Size(min=10,max = 10)
 	private String mobileNumber;
+	@NotEmpty
+	@Email(message = "Enter valid email")
 	private String email;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="add_Id", referencedColumnName = "addressID")
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = false)
+	@JoinColumn(name="add_Id", referencedColumnName = "addressId")
 	private Address address;
 		
 			
 	public Customer() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 
-	public Customer(String firstName, String lastName, String gender, String age, String mobileNumber, Address address,
+	public Customer(String firstName, String lastName, String gender, int age, String mobileNumber, Address address,
 			String email) {
 		super();
 		this.firstName = firstName;
@@ -46,7 +59,7 @@ public class Customer {
 	}
 	
 	
-	public Customer(int customerId, String firstName, String lastName, String gender, String age,
+	public Customer(int customerId, String firstName, String lastName, String gender, int age,
 			String mobileNumber, Address address, String email) {
 		super();
 		this.customerId = customerId;
@@ -58,7 +71,6 @@ public class Customer {
 		this.address = address;
 		this.email = email;
 	}
-
 
 	public int getCustomerId() {
 		return customerId;
@@ -84,10 +96,10 @@ public class Customer {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public String getAge() {
+	public int getAge() {
 		return age;
 	}
-	public void setAge(String age) {
+	public void setAge(int age) {
 		this.age = age;
 	}
 	public String getMobileNumber() {
