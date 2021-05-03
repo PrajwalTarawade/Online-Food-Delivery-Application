@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.cg.fds.exceptions.IdNotFoundException;
 import com.cg.fds.exceptions.removeFailedException;
 import com.cg.fds.service.CategoryService;
 
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 public class CategoryController {
 	
@@ -55,10 +57,11 @@ public class CategoryController {
 	}
 	
 	@DeleteMapping("/removeCategory/{categoryId}")
-	public ResponseEntity<String> removeCategory(@PathVariable("categoryId") int id) throws removeFailedException
+	public ResponseEntity<String> removeCategory(@PathVariable("categoryId") int catId) throws removeFailedException
 	{ 
 		logger.info("Inside remove category by Id method");
-		Category category1=service.viewCategoryById(id);
+		Category category1=service.viewCategoryById(catId);
+		System.err.println(category1);
 		if(category1==null)
 		{
 			throw new removeFailedException("Delete category failed !!!");

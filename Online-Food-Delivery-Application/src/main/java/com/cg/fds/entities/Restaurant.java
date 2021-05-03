@@ -1,18 +1,13 @@
 package com.cg.fds.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -30,35 +25,33 @@ public class Restaurant {
 	@JoinColumn(name="addId")
 	private Address address;
 	
-//	@OneToMany(cascade = CascadeType.ALL,mappedBy = "restaurant", orphanRemoval =  true)
-//	private List<Item> itemList = new ArrayList<>();
-	
 	private String managerName;
+	private String email;
+	private String password;
 	private String contactNumber;
 	
 	public Restaurant() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
-	public Restaurant(String restaurantName, Address address, List<Item> itemList, String managerName,
-			String contactNumber) {
+	public Restaurant( String restaurantName, Address address, String managerName, String email, String password, String contactNumber) {
 		super();
 		this.restaurantName = restaurantName;
 		this.address = address;
-		//this.itemList = itemList;
 		this.managerName = managerName;
+		this.email = email;
+		this.password = password;
 		this.contactNumber = contactNumber;
 	}
-	
-	
-	public Restaurant(int restaurantId, String restaurantName, Address address, List<Item> itemList, String managerName,
-			String contactNumber) {
+
+	public Restaurant(int restaurantId, String restaurantName,	Address address, String managerName, String email, String password, String contactNumber) {
 		super();
 		this.restaurantId = restaurantId;
 		this.restaurantName = restaurantName;
 		this.address = address;
-		//this.itemList = itemList;
 		this.managerName = managerName;
+		this.email = email;
+		this.password = password;
 		this.contactNumber = contactNumber;
 	}
 
@@ -86,20 +79,28 @@ public class Restaurant {
 		this.address = address;
 	}
 
-	/*public List<Item> getItemList() {
-		return itemList;
-	}
-
-	public void setItemList(List<Item> itemList) {
-		this.itemList = itemList;
-	}*/
-
 	public String getManagerName() {
 		return managerName;
 	}
 
 	public void setManagerName(String managerName) {
 		this.managerName = managerName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getContactNumber() {
@@ -113,17 +114,8 @@ public class Restaurant {
 	@Override
 	public String toString() {
 		return "Restaurant [restaurantId=" + restaurantId + ", restaurantName=" + restaurantName + ", address="
-				+ address + ", managerName=" + managerName + ", contactNumber=" + contactNumber + "]";
+				+ address + ", managerName=" + managerName + ", email=" + email + ", password=" + password
+				+ ", contactNumber=" + contactNumber + "]";
 	}
-
-	/*@Override
-	public String toString() {
-		return "Restaurant [restaurantId=" + restaurantId + ", restaurantName=" + restaurantName + ", address="
-				+ address + ", itemList=" + itemList + ", managerName=" + managerName + ", contactNumber="
-				+ contactNumber + "]";
-	}*/
-	
-
-	
-
+			
 }

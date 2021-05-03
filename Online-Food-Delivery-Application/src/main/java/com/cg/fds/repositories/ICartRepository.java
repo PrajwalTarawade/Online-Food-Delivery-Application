@@ -10,7 +10,5 @@ import com.cg.fds.entities.FoodCart;
 public interface ICartRepository  extends JpaRepository<FoodCart, Integer>{
 
 	@Query("select c.cartId from FoodCart c where c.customer.customerId=?1")
-	public int findcartByCustomerId(int id);
-	
-	
+	public int findcartByCustomerId(int custId);
 }

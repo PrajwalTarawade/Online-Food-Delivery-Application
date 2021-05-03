@@ -1,62 +1,39 @@
 package com.cg.fds.controller;
 
-import java.util.List;
-import javax.validation.Valid;
+import javax.naming.NameNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.cg.fds.entities.CustomerLogin;
-import com.cg.fds.exceptions.removeFailedException;
-import com.cg.fds.service.ICustomerLogin;
 
+import com.cg.fds.entities.Customer;
+import com.cg.fds.service.ICustomerService;
+
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 public class CustomerLoginController {
 	
 	@Autowired
-	ICustomerLogin service;
+	ICustomerService service;
 	
 	Logger logger=LoggerFactory.getLogger(CustomerLoginController.class);
 	
-	@PostMapping("/addCustomerLogin")
-	public ResponseEntity<CustomerLogin> addCustomerLogin(@Valid @RequestBody CustomerLogin login) {
-			
-		logger.info("Inside add cutomer login method");
-		CustomerLogin loginData = service.addCustomerLogin(login);
-		return new ResponseEntity<CustomerLogin>(loginData, HttpStatus.OK);
-	}
-	
-	@PutMapping("/updateCustomerLogin")
-	public ResponseEntity<CustomerLogin> updateCustomerLogin(@Valid @RequestBody CustomerLogin login) {
-		
-		logger.info("Inside update cutomer login method");
-		CustomerLogin loginData = service.updateCustomerLogin(login);
-		return new ResponseEntity<CustomerLogin>(loginData, HttpStatus.OK);
-	}
-	
-	@DeleteMapping("/deleteCustomerLogin/{userId}")
-	public ResponseEntity<String> deleteCustomerLogin(@PathVariable("userId") int userid) throws removeFailedException {
-		
-		logger.info("Inside delete cutomer login method");
-		String msg =  service.deleteCustomerLogin(userid);
-		return new ResponseEntity<String>(msg, HttpStatus.OK);
-	}
-	
 	@GetMapping("/customerLogin/{username}/{password}")
-	public ResponseEntity<String> CustomerLogin(@PathVariable String username,@PathVariable String password) 
+	public ResponseEntity<Customer> CustomerLogin(@PathVariable String username,@PathVariable String password) throws NameNotFoundException 
 	{
 		logger.info("Inside login cutomer login method");
-		String login=service.CustomerLogin(username,password);
-		return new ResponseEntity<String>(login, HttpStatus.OK);
+		Customer login=service.CustomerLogin(username,password);
+		if(login==null)
+		{
+			throw new NameNotFoundException("Invalid credentials !!!");
+		}
+		return new ResponseEntity<Customer>(login, HttpStatus.OK);
 	}
 	
 	@GetMapping("/customerLogout")

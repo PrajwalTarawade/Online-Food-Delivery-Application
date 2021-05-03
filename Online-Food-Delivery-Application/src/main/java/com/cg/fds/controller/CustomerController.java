@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import com.cg.fds.exceptions.invalidNameException;
 import com.cg.fds.exceptions.removeFailedException;
 import com.cg.fds.service.ICustomerService;
 
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 public class CustomerController {
 
@@ -34,7 +36,7 @@ public class CustomerController {
 	@PostMapping("/addCustomer") 
 	public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer) 
 	{
-		logger.info("Inside add customer method");
+		logger.error("Inside add customer method");
 	    Customer customer2=service.addCustomer(customer);
 		return new ResponseEntity<Customer>(customer2,HttpStatus.OK);
 	}

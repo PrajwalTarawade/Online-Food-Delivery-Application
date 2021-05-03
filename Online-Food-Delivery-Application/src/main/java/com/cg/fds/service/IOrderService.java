@@ -9,9 +9,8 @@ public interface IOrderService {
 	public OrderDetails updateOrder(OrderDetails order);
 	public String removeOrderById(OrderDetails order);
 	public OrderDetails viewOrderById(int id);
-	//public List<OrderDetails> viewAllOrders(int id);
 	public List<OrderDetails> viewAllOrdersByCustomer(int id);
-	public List<OrderDetails> viewAllOrdersByRestaurant(String resName);
+	public List<OrderDetails> viewAllOrdersByRestaurant(int restId);
 	
 	
 }

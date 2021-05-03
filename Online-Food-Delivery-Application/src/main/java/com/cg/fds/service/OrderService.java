@@ -109,10 +109,10 @@ public class OrderService implements IOrderService{
 	}*/
 
 	@Override
-	public List<OrderDetails> viewAllOrdersByRestaurant(String resName) {
+	public List<OrderDetails> viewAllOrdersByRestaurant(int restId) {
 		
 		logger.info("Inside service view all order by restaurant name method");
-		List<OrderDetails> list = repository.findAllByRestaurant(resName);
+		List<OrderDetails> list = repository.findAllByRestaurant(restId);
 		System.out.println(list);
 		return list;
 	}

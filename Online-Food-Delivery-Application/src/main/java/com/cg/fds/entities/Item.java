@@ -1,19 +1,12 @@
 package com.cg.fds.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
-import org.springframework.lang.NonNull;
+
 
 @Entity
 public class Item {
@@ -21,23 +14,14 @@ public class Item {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int itemId;
-	@NotEmpty(message = "Item name should not be empty...")
 	private String itemName;
-	@NonNull
-	@Digits(fraction = 0, integer = 2)
-	// @Value("1")
 	private int quantity;
-	@Digits(fraction = 0, integer = 3)
 	private double cost;
 
 	@ManyToOne
 	@JoinColumn(name = "cat_id", referencedColumnName = "catId")
 	private Category category;
 
-	/*@ManyToMany
-	@JoinTable(name="itemlist_restaurant",joinColumns = {@JoinColumn(name="item_id")},inverseJoinColumns = {@JoinColumn(name="restaurant_id")})
-	//@ManyToMany(cascade = CascadeType.ALL) @JoinTable(name = "itemlist_restaurant", joinColumns = { @JoinColumn(name = "STUDENT_ID") }, inverseJoinColumns = { @JoinColumn(name = "SUBJECT_ID") }) 
-	private List<Restaurant> restaurants=new ArrayList<>();*/
 	
 	@ManyToOne
 	@JoinColumn(name = "restaurant_id")
