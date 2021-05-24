@@ -13,5 +13,8 @@ public interface IRestaurantService {
 	public List<Restaurant> viewAllRestaurants();
 	public List<Restaurant> viewNearByRestaurant(String location);
 	public List<Restaurant> viewRestaurantByItemName(String name);
+	public Restaurant candidateLogin(String username, String password);
+	public String candidateLogout();
+	public List<Restaurant> viewRestaurantByName(String name);
 
 }

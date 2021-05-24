@@ -94,4 +94,35 @@ public class RestaurantService implements IRestaurantService {
 		return list;
 	}
 
+	@Override
+	public Restaurant candidateLogin(String username, String password) {
+
+		logger.info("Inside service restaurant login method");
+		Restaurant restaurant=repository.findRestaurantByEmail(username);
+		String usr=restaurant.getEmail();
+		String pwd=restaurant.getPassword();
+		if(restaurant!=null)
+		{
+			if(usr.equals(username) && pwd.equals(password))
+			{
+				return restaurant;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String candidateLogout() {
+
+		return "Logout successfull...";
+	}
+
+	@Override
+	public List<Restaurant> viewRestaurantByName(String name) {
+		
+		logger.info("Inside service view restaurant by name method");
+		List<Restaurant> list = repository.findRestaurantByRestaurantName(name);
+		return list;
+	}
+
 }

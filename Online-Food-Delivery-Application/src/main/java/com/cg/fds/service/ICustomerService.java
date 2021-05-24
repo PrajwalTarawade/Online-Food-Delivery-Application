@@ -13,5 +13,7 @@ public interface ICustomerService {
 	public Customer viewCustomerById(int id ) throws IdNotFoundException;
 	public List<Customer> viewAllCustomer(String restaurantname);
 	public String removeCustomerById(int id)  throws removeFailedException;
+	public Customer CustomerLogin(String username, String password);
+	public String CustomerLogout();
 	 
 }

@@ -54,47 +54,61 @@ public class CartService implements ICartService{
 	}
 
 	@Override
-	public FoodCart increaseQuantity(int cart_id,int item_id, int quantity) {
+	public List<Item> increaseQuantity(int cart_id,int item_id) {
 		
 		FoodCart cart=repository.findById(cart_id).orElse(null);
-		List<Item> list=cart.getItemList();							
-		int size=list.size();
-		int cnt=0;
-		for(int i=0;i<size;i++)
-		{
-			int id=list.get(i).getItemId();
-			if(item_id==id)
-			{
-				cnt++;
-			}
-		}
-		
-		if(cnt>0)
-		{
-			for(int i=0;i<quantity;i++)
-			{
-				addItemToCart(cart_id, item_id);
-			}
-			return cart;
-		}
-		else
-		{
-			return null;
-		}
-	
+		addItemToCart(cart_id, item_id);
+		System.out.println("In increase check");
+		System.err.println(cart);
+		return cart.getItemList();
+//		List<Item> list = cart.getItemList();
+//		List<Item> newList = new ArrayList<Item>();
+//		for(int i=0;i<list.size();i++)
+//		{
+//			Item item=list.get(i);
+//			if(newList.get(i).getItemId()!=item.getItemId())
+//			{
+//				newList.add(item);
+//			}
+//		}
+//	    return newList;
+//		int size=list.size();
+//		int cnt=0;
+//		for(int i=0;i<size;i++)
+//		{
+//			int id=list.get(i).getItemId();
+//			if(item_id==id)
+//			{
+//				cnt++;
+//			}
+//		}
+//		
+//		if(cnt>0)
+//		{
+//			for(int i=0;i<quantity;i++)
+//			{
+//				addItemToCart(cart_id, item_id);
+//			}
+//			return cart;
+//		}
+//		else
+//		{
+//			return null;
+//		}
+//	
 	}
 
 	@Override
-	public FoodCart reduceQuantity(int cart_id,int item_id, int quantity) {
+	public FoodCart reduceQuantity(int cart_id,int item_id) {
 		
 		FoodCart cart=repository.findById(cart_id).orElse(null);
 		List<Item> list=cart.getItemList();	
 		Item item=repository2.findById(item_id).orElse(null);
-	
-		for(int i=0;i<quantity;i++)
-		{
-			removeItem(cart, item);
-		}
+		list.remove(item);
+//		for(int i=0;i<quantity;i++)
+//		{
+//			removeItem(cart, item);
+//		}
 		return cart;
 	}
 
@@ -102,23 +116,35 @@ public class CartService implements ICartService{
 	public String removeItem(FoodCart cart, Item item) {
 		List<Item> list=cart.getItemList();
 		int id=item.getItemId();
-		int isPresent=0,index=0;
+		
 		for(int i=0;i<list.size();i++)
 		{
-			if(id==list.get(i).getItemId())
+			int sid=list.get(i).getItemId();
+			if(sid==id)
 			{
-				isPresent=1;
-				index=i;
-				break;
+				reduceQuantity(cart.getCartId(), id);
 			}
-			
 		}
-		if(isPresent==1)
-		{
-			list.remove(index);
-		}
-		cart.setItemList(list);
-		repository.save(cart);
+		
+		
+		
+//		int isPresent=0,index=0;
+//		for(int i=0;i<list.size();i++)
+//		{
+//			if(id==list.get(i).getItemId())
+//			{
+//				isPresent=1;
+//				index=i;
+//				break;
+//			}
+//			
+//		}
+//		if(isPresent==1)
+//		{
+//			list.remove(index);
+//		}
+//		cart.setItemList(list);
+//		repository.save(cart);
 		return "Item removed successfully...";
 	}
 	
@@ -134,13 +160,28 @@ public class CartService implements ICartService{
 	public FoodCart getCartById(int cartId) {
 		System.out.println(cartId);
 		FoodCart cart=repository.findById(cartId).orElse(null);
-		System.err.println(cart);
+		System.out.println(cart);
 		return cart;
 	}
 
 	@Override
 	public Item getItemById(int itemId) {
 		return repository2.findById(itemId).orElse(null);
+	}
+
+	@Override
+	public int getCart(int custId) {
+
+		int cartId=repository.findcartByCustomerId(custId);
+		return cartId;
+	}
+
+	@Override
+	public List<Item> viewAllItems(int cartId) {
+
+		FoodCart cart=getCartById(cartId);
+		List<Item> list=cart.getItemList();
+		return list;
 	}
 
 }

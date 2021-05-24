@@ -3,6 +3,7 @@ package com.cg.fds.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.NameNotFoundException;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +28,7 @@ import com.cg.fds.exceptions.invalidLocationException;
 import com.cg.fds.exceptions.removeFailedException;
 import com.cg.fds.service.IRestaurantService;
 
-
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 public class RestaurantController {
 	
@@ -96,8 +98,8 @@ public class RestaurantController {
 		
 	}
 	
-	@GetMapping("/viewRestaurantByItemName")
-	public ResponseEntity<List<Restaurant>> viewRestaurantByItemName(@RequestParam("itemName") String itemName) throws invalidItemNameException{
+	@GetMapping("/viewRestaurantByItemName/{itemName}")
+	public ResponseEntity<List<Restaurant>> viewRestaurantByItemName(@PathVariable String itemName) throws invalidItemNameException{
 		
 		logger.info("Inside view restaurant by item name method");
 		List <Restaurant> list =  service.viewRestaurantByItemName(itemName);
@@ -113,14 +115,29 @@ public class RestaurantController {
 		
 	}
 	
-	@GetMapping("/viewNearByRestaurant")
-	public ResponseEntity<List<Restaurant>> viewNearByRestaurant(@RequestParam("area") String location) throws invalidLocationException{
+	@GetMapping("/viewNearByRestaurant/{location}")
+	public ResponseEntity<List<Restaurant>> viewNearByRestaurant(@PathVariable String location) throws invalidLocationException{
 		
 		logger.info("Inside view nearby restaurant method");
 		List <Restaurant> list = service.viewNearByRestaurant(location);
 		if(list==null)
 		{
 			throw new invalidLocationException("Location not available !!!");
+		}
+		else
+		{
+			return new ResponseEntity<List<Restaurant>>(list, HttpStatus.OK);
+		}		
+	}
+	
+	@GetMapping("/viewRestaurantByName/{name}")
+	public ResponseEntity<List<Restaurant>> viewRestaurantByName(@PathVariable String name) throws NameNotFoundException{
+		
+		logger.info("Inside view restaurant by name method");
+		List <Restaurant> list = service.viewRestaurantByName(name);
+		if(list==null)
+		{
+			throw new NameNotFoundException("Restaurant with this name not available !!!");
 		}
 		else
 		{
@@ -145,6 +162,8 @@ public class RestaurantController {
 			rest2.setRestaurantName(restaurant.getRestaurantName());
 			rest2.setRestaurantId(restaurant.getRestaurantId());
 			rest2.setAddress(restaurant.getAddress());
+			rest2.setEmail(restaurant.getEmail());
+			rest2.setPassword(restaurant.getPassword());
 			return new ResponseEntity<Restaurant>(rest2, HttpStatus.OK);
 	
 		}

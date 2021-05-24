@@ -59,12 +59,12 @@ class OrderServiceTest {
 		assertTrue(res);
 		}
 
-	@Test
+	/*@Test
 	void testViewAllOrdersByRestaurant() {
 		List<OrderDetails> list=repository.findAllByRestaurant("Annapurna");
 		assertNotNull(list);
 
-	}
+	}*/
 
 	public Customer getCustomer()
 	{

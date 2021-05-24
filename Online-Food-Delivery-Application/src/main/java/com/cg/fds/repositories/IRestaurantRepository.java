@@ -18,4 +18,9 @@ public interface IRestaurantRepository extends JpaRepository<Restaurant, Integer
 	@Query(value="select * from restaurant r inner join address a on r.add_id = a.address_id where a.area =:area",nativeQuery = true)
 	public List<Restaurant> viewNearByRestaurant(@Param("area") String location);
 
+	public Restaurant findRestaurantByEmail(String username);
+
+	
+	public List<Restaurant> findRestaurantByRestaurantName(String name);
+
 }
